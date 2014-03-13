@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 import System.Environment
 import qualified Data.Text as T
 import Text.Printf
@@ -27,7 +25,12 @@ fromPath path = do
   let encoded = encode64 file
   return $ dataUri mime encoded
 
+toImgTag :: DataUri -> String
+toImgTag d = printf "<img src=\"%s\" />" d
+
+{-isImg :: MimeType -> Bool-}
+
 main = do
   filePaths <- getArgs
-  dataUris <- mapM fromPath filePaths
+  dataUris  <- mapM fromPath filePaths
   mapM putStrLn dataUris
