@@ -25,12 +25,20 @@ fromPath path = do
   let encoded = encode64 file
   return $ dataUri mime encoded
 
-toImgTag :: DataUri -> String
-toImgTag d = printf "<img src=\"%s\" />" d
+usage :: String -> String
+usage progname = printf "Usage: ./%s file1 <file2> <file3..>" progname
+
+{-toImgTag :: DataUri -> String-}
+{-toImgTag d = printf "<img src=\"%s\" />" d-}
 
 {-isImg :: MimeType -> Bool-}
 
 main = do
   filePaths <- getArgs
-  dataUris  <- mapM fromPath filePaths
-  mapM putStrLn dataUris
+  progName  <- getProgName
+  if length filePaths < 1
+  then do
+    mapM putStrLn $ [usage progName]
+  else do
+    dataUris  <- mapM fromPath filePaths
+    mapM putStrLn dataUris
