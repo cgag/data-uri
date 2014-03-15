@@ -23,15 +23,22 @@ fromPath path = do
   let mime = defaultMimeLookup $ T.pack path
   file <- B.readFile path
   let encoded = encode64 file
-  return $ dataUri mime encoded
-
+  let rawUri = dataUri mime encoded
+  let uri = if isImg mime
+              then toImgTag $ rawUri
+              else rawUri
+  return uri
+  
 usage :: String -> String
 usage progname = printf "Usage: ./%s file1 <file2> <file3..>" progname
 
-{-toImgTag :: DataUri -> String-}
-{-toImgTag d = printf "<img src=\"%s\" />" d-}
+toImgTag :: DataUri -> String
+toImgTag d = printf "<img src=\"%s\" />" d
 
-{-isImg :: MimeType -> Bool-}
+isImg :: MimeType -> Bool
+isImg mime = 
+  let mimeSuperType = head $ BC.split '/' mime
+  in  mimeSuperType == BC.pack "image"
 
 main = do
   filePaths <- getArgs
