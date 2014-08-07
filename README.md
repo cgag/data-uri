@@ -1,3 +1,10 @@
+## Installation
+You can download the lastest release from github:
+https://github.com/cgag/data-uri/releases
+
+This build will only run on 64 bit linux or OSX.
+
+## Usage
 A command line tool to generate base64 encoded data-uris, usually used for embedding images in html or javascript.
 
 ```
